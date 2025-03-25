@@ -1,0 +1,23 @@
+npm install react-router-dom
+
+npm install axios
+
+
+npx tailwindcss init -p
+
+
+npm install react-icons
+
+npm install lucide-react
+
+
+npm install react-toastify
+
+
+npm install date-fns
+
+
+npm install react-to-print
+
+
+npm install ckeditor4-react --legacy-peer-deps
