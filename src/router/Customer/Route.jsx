@@ -4,7 +4,7 @@ import News from "../../Customer/page/News/New";
 import ShowTour from "../../Customer/page/ShowTour/ShowTour";
 import Tour from "../../Customer/page/Tour/Tour";
 
-export const menuCustomer = [
+export const customerRoutes = [
     {
         path: "",
         Component: Home

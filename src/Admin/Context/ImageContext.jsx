@@ -27,17 +27,28 @@ export const ImageProvider = ({ children }) => {
         }
     };
     const handleImage = async (formdata) => {
+        setLoading(true);
         try {
-            const res = await axiosClient.post(api + "/admin/image/store", formdata)
-            if (res.data.success)
-            {
+            // Đảm bảo formdata là multipart/form-data
+            const res = await axiosClient.post(`${api}/admin/image/store`, formdata, {
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                },
+            });
+            if (res.data.success) {
                 toast.success("Thêm ảnh thành công");
                 return res.data.image;
+            } else {
+                throw new Error("Thêm ảnh thất bại");
             }
         } catch (error) {
-            
+            console.error("API Error in handleImage:", error);
+            toast.error(error.response?.data?.message || "Lỗi khi thêm ảnh.");
+            return null;
+        } finally {
+            setLoading(false);
         }
-    }
+    };
     return (
         <ImageContext.Provider value={{ deleteImage, loading, handleImage}}>
             {children}

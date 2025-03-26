@@ -38,7 +38,7 @@ const Step3 = ({ itinerary, setItinerary }) => {
     );
 };
 
-function Create_Tour() {
+function CreateTour() {
     const [step, setStep] = useState(1);
     const [loading, setLoading] = useState(false)
     const [tourData, setTourData] = useState({
@@ -50,7 +50,8 @@ function Create_Tour() {
         child_price: "",
         departure_date: "",
         end_date: "",
-        description: ""
+        description: "",
+        category_id: ""
     });
     const [images, setImages] = useState([]);
     const [itinerary, setItinerary] = useState([]);
@@ -304,4 +305,4 @@ function Create_Tour() {
     );
 }
 
-export default Create_Tour;
+export default CreateTour;

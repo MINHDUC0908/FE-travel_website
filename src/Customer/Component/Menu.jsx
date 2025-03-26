@@ -1,12 +1,15 @@
 import { HomeIcon, InfoIcon, MapPinIcon, PhoneIcon, SearchIcon, UserIcon, MenuIcon, XIcon, PlaneIcon, SunIcon } from "lucide-react";
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
+import Register from "./Auth/Resgiter";
+import { useAuthCus } from "../Context/AuthContext";
 
 function Menu() {
     const [isOpen, setIsOpen] = useState(false);
     const [isScrolled, setIsScrolled] = useState(false);
     const location = useLocation();
-    
+    const [show, setShow] = useState(false)
+    const { user } = useAuthCus()
     const menu = [
         {
             id: 1,
@@ -33,7 +36,6 @@ function Menu() {
             icon: <PhoneIcon size={18} />
         }
     ];
-
     // Xử lý hiệu ứng khi cuộn trang
     useEffect(() => {
         const handleScroll = () => {
@@ -110,21 +112,32 @@ function Menu() {
                     </div>
                     
                     {/* User & Search icons */}
-                    <div className="hidden md:flex items-center space-x-3">
-                        <button className={`p-2 rounded-full flex items-center justify-center
-                            ${isScrolled 
-                                ? 'bg-blue-100 text-blue-600 hover:bg-blue-200' 
+                    <div className="hidden md:flex items-center space-x-4">
+                        <div className="flex items-center space-x-2">
+                            <p className="text-sm font-medium">
+                            {user?.name}
+                            </p>
+                            <button
+                                className={`p-2 rounded-full flex items-center justify-center transition-colors duration-200
+                                    ${isScrolled
+                                    ? 'bg-blue-100 text-blue-600 hover:bg-blue-200'
+                                    : 'bg-white/20 text-white hover:bg-white/30'
+                                    } focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50`}
+                                onClick={() => user ? alert("Hello") : setShow(true)}
+                                aria-label="User profile"
+                            >
+                                <UserIcon size={18} />
+                            </button>
+                        </div>
+
+                        <button
+                            className={`p-2 rounded-full flex items-center justify-center transition-colors duration-200
+                            ${isScrolled
+                                ? 'bg-amber-100 text-amber-600 hover:bg-amber-200'
                                 : 'bg-white/20 text-white hover:bg-white/30'
-                            } 
-                            focus:outline-none transition-colors`}>
-                            <UserIcon size={18} />
-                        </button>
-                        <button className={`p-2 rounded-full flex items-center justify-center
-                            ${isScrolled 
-                                ? 'bg-amber-100 text-amber-600 hover:bg-amber-200' 
-                                : 'bg-white/20 text-white hover:bg-white/30'
-                            } 
-                            focus:outline-none transition-colors`}>
+                            } focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-opacity-50`}
+                            aria-label="Toggle theme"
+                        >
                             <SunIcon size={18} />
                         </button>
                     </div>
@@ -185,6 +198,7 @@ function Menu() {
                     })}
                 </div>
             </div>
+            { show && <Register setShow={setShow} />}
         </nav>
     );
 }

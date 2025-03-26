@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import axios from "axios";
 import { api } from "../../../../../../Api";
 import { toast } from "react-toastify";
+import { CKEditor } from "ckeditor4-react";
 
 function Schedule({ schedule, setShowModal, setTour }) {
     const modalVariants = {
@@ -76,14 +77,13 @@ function Schedule({ schedule, setShowModal, setTour }) {
                 <form onSubmit={handleSubmit} className="space-y-4">
                     <div>
                         <h3 className="font-bold text-gray-700">Ngày {schedule.day_number}</h3>
-                        <textarea
-                            name="activities"
-                            value={activities}
-                            onChange={(e) => setActivities(e.target.value)}
-                            className="mt-1 p-3 border border-gray-300 rounded-md w-full"
-                            placeholder="Nhập mô tả"
-                            rows="4"
-                        ></textarea>
+                        <CKEditor
+                            initData={activities}
+                            onChange={(event) => {
+                                const data = event.editor.getData();
+                                setActivities(data);
+                            }}
+                        />
                     </div>
                     <div className="flex justify-end space-x-4">
                         <button

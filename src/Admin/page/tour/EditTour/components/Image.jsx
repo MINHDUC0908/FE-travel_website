@@ -119,6 +119,7 @@ function ImageModal({ images, setShowImageDialog, setTour, tour }) {
                 setFile(file)
             }
         };
+
         const storeImage = async () => {
             try {
                 if (!file)
@@ -128,6 +129,7 @@ function ImageModal({ images, setShowImageDialog, setTour, tour }) {
                 const formdata = new FormData();
                 formdata.append("tour_id", tour.id)
                 formdata.append("image_url", file)
+                console.log([...formdata]); // Kiểm tra dữ liệu gửi đi
                 const newImage = await handleImage(formdata); // ✅ Lấy dữ liệu ảnh mới
                 if (newImage) {
                     setTour((prev) => ({

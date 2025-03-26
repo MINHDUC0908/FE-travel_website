@@ -1,10 +1,11 @@
 import Dashboard from "../../Admin/page/dashboard";
 import Tour from "../../Admin/page/tour";
-import Create_Tour from "../../Admin/page/tour/Create_Tour/Create_tour";
-import EditTour from "../../Admin/page/tour/edit_tour/Edit_tour";
+import CreateTour from "../../Admin/page/tour/CreateTour/CreateTour";
+import EditTour from "../../Admin/page/tour/EditTour/EditTour";
+
 import ShowTour from "../../Admin/page/tour/ShowTour/ShowTour";
 
-export const menu = [
+export const adminRoutes = [
     {
         path: "dashboard",
         Component: Dashboard,
@@ -15,7 +16,7 @@ export const menu = [
     },
     {
         path: "tour/create",
-        Component: Create_Tour
+        Component: CreateTour
     },
     {
         path: "tour/show/:tour_name",

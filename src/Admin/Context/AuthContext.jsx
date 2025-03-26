@@ -91,13 +91,17 @@ export const AuthProvider = ({ children }) => {
     const login = async (email, password) => {
         try {
             const data = await authService.login(email, password);
+            // Kiểm tra role từ dữ liệu trả về
+            if (data.data.role !== "admin") {
+                throw new Error("Chỉ người dùng có vai trò 'admin' mới được phép đăng nhập!");
+            }
             setUser(data.data); // Đảm bảo lấy đúng dữ liệu user
             scheduleTokenRefresh(data.accessToken); // Gọi schedule ngay sau khi login
             return { success: true };
         } catch (error) {
-            console.error("Lỗi đăng nhập:", error?.response?.data?.message || "Đăng nhập thất bại");
-            toast.error(error?.response?.data?.message || "Đăng nhập thất bại");
-            return { success: false, message: error?.response?.data?.message };
+            console.error("Lỗi đăng nhập:", error.message || "Đăng nhập thất bại");
+            toast.error(error.message || "Đăng nhập thất bại");
+            return { success: false, message: error.message || "Đăng nhập thất bại" };
         }
     };
 

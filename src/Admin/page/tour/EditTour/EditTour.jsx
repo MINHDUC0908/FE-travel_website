@@ -4,14 +4,15 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { motion } from "framer-motion";
 import { FaMapMarkerAlt, FaUsers, FaMoneyBillWave, FaCalendarAlt, FaInfoCircle, FaShoppingBag,FaSave,FaImage,FaTimes,FaArrowLeft,FaGlobe,FaExclamationCircle} from "react-icons/fa";
-import ImageModal from "./Image/Image";
 import { MdBrowserUpdated } from "react-icons/md";
-import { Eye } from "lucide-react";
-import Schedule from "./Schedule/Schedule";
-import { formatDate } from "../../../../../Api";
+import { useTourCategory } from "../../../Context/TourCategory";
+import ImageModal from "./components/Image";
+import Schedule from "./components/Schedule";
 
 function EditTour({ setCurrentTitle }) {
     const { fetchTourShow, loading, tour, setTour, updateTour } = useTour();
+    const { tourCategories } = useTourCategory()
+    console.log(tourCategories)
     const location = useLocation();
     const id = location.state?.id;
     const navigate = useNavigate();
@@ -25,6 +26,7 @@ function EditTour({ setCurrentTitle }) {
         departure_date: "",
         end_date: "",
         description: "",
+        category_id: ""
     });
     const [showImageDialog, setShowImageDialog] = useState(false);
     const [showModal, setShowModal] = useState(false)
@@ -60,6 +62,7 @@ function EditTour({ setCurrentTitle }) {
                 departure_date: tour.departure_date,
                 end_date: tour.end_date,
                 description: tour.description || "",
+                category_id: tour.category_id || "",
             });
         }
     }, [tour]);
@@ -312,6 +315,40 @@ function EditTour({ setCurrentTitle }) {
                             </div>
                         </div>
                     
+                        <div className="mb-8">
+                            <h3 className="text-lg font-semibold text-gray-800 mb-4 pb-2 border-b border-gray-200">
+                                Danh mục tour
+                            </h3>
+                            <div className="relative w-full max-w-xs">
+                                <select
+                                    name="tourCategory"
+                                    id="tourCategory"
+                                    value={formData.category_id} 
+                                    onChange={(e) => setFormData({ ...formData, category_id: e.target.value })}
+                                    className="w-full px-4 py-2.5 text-sm text-gray-700 bg-white border border-gray-300 rounded-lg shadow-sm appearance-none focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-300 hover:border-gray-400"
+                                >
+                                    {tourCategories && tourCategories.length > 0 ? (
+                                        tourCategories.map(tourCategory => (
+                                            <option
+                                                key={tourCategory.id}
+                                                value={tourCategory.id}
+                                                className="text-gray-700 w-full"
+                                            >
+                                                {tourCategory.category_name}
+                                            </option>
+                                        ))
+                                    ) : (
+                                        <option value="" disabled>Không có danh mục</option>
+                                    )}
+                                </select>
+                                <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                                    <svg className="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+
                         <div className="bg-white rounded shadow">
                             <div className="p-4 border-b border-gray-200">
                                 <h2 className="text-lg font-bold text-gray-700">Lịch trình</h2>
@@ -322,7 +359,7 @@ function EditTour({ setCurrentTitle }) {
                                         <div key={schedule.id} className="flex justify-between items-center border-l-4 border-blue-500 pl-4 py-2">
                                             <div>
                                                 <h3 className="font-bold text-gray-700">Ngày {schedule.day_number}</h3>
-                                                <p className="text-gray-600 mt-1">{schedule.activities}</p>
+                                                <p className="text-gray-600 mt-1" dangerouslySetInnerHTML={{ __html: schedule.activities }}></p>
                                             </div>
                                             <motion.button 
                                                 whileHover={{ scale: 1.02 }}
