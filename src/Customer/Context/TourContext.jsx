@@ -7,7 +7,7 @@ const TourContext = createContext()
 export const TourProviderCus = ({ children}) => {
     const [tours, setTours] = useState("")
     const [tour, setTour] = useState("")
-    const [loading, setLoading] = useState(false)
+    const [loading, setLoading] = useState(true)
     const fetchTour = async () => {
         try {
             const res = await axios.get("http://localhost:3000/api/tour")
@@ -17,6 +17,10 @@ export const TourProviderCus = ({ children}) => {
             }
         } catch (error) {
             console.log(error)
+        } finally {
+            setTimeout(() => {
+                setLoading(false);
+            }, 400);
         }
     }
     const fetchShowTour = async (id) => {
@@ -35,7 +39,7 @@ export const TourProviderCus = ({ children}) => {
         } finally {
             setTimeout(() => {
                 setLoading(false);
-            }, 500);
+            }, 400);
         }
     };
     
@@ -43,7 +47,7 @@ export const TourProviderCus = ({ children}) => {
         fetchTour()
     }, [])
     return (
-        <TourContext.Provider value={{ tours, fetchShowTour, loading, setTour, tour }}>
+        <TourContext.Provider value={{ tours, fetchShowTour, loading, setTour, tour, setTours, fetchTour }}>
             {children}
         </TourContext.Provider>
     )

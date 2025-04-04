@@ -6,6 +6,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { AuthProvider } from "./Admin/Context/AuthContext";
 import AdminRoutes from "./router/Admin/AdminRoutes";
 import CustomerRoutes from "./router/Customer/CustomerRoutes";
+import NotFound from "./Customer/Component/NotFound";
 
 function App() {
     const [currentTitle, setCurrentTitle] = useState("");
@@ -23,6 +24,7 @@ function App() {
                         <CustomerRoutes setCurrentTitle={setCurrentTitle} />
                     }
                 />
+                <Route path="*" element={<NotFound />} />
                 {/* Bọc toàn bộ Admin (bao gồm cả Login) với AuthProvider */}
                 <Route
                     path="/admin/*"

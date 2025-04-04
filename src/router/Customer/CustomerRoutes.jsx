@@ -5,6 +5,7 @@ import CustomerLayout from "../../Customer/CustomerLayout ";
 import { TourCateProviderCus } from "../../Customer/Context/TourCategoryContext";
 import { TourProviderCus } from "../../Customer/Context/TourContext";
 import { AuthProviderCus } from "../../Customer/Context/AuthContext";
+import { BookingProvider } from "../../Customer/Context/BookingTour";
 
 
 function CustomerRoutes({ setCurrentTitle }) {
@@ -16,7 +17,9 @@ function CustomerRoutes({ setCurrentTitle }) {
                     <TourCateProviderCus>
                         <TourProviderCus>
                             <AuthProviderCus>
-                                <CustomerLayout />
+                                <BookingProvider>
+                                    <CustomerLayout />
+                                </BookingProvider>
                             </AuthProviderCus>
                         </TourProviderCus>
                     </TourCateProviderCus>

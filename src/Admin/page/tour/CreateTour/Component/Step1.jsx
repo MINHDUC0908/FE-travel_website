@@ -74,10 +74,8 @@ export const Step1 = ({ tourData, setTourData }) => {
                     <label className="block text-sm font-medium text-gray-700">
                         Khu Vực <span className="text-red-500">*</span>
                     </label>
-                    <input
-                        type="text"
+                    <select
                         name="area"
-                        placeholder="VD: Miền Trung, Tây Nguyên"
                         value={tourData.area}
                         onChange={handleChange}
                         className="w-full px-4 py-3 border border-gray-300 rounded-lg 
@@ -85,8 +83,13 @@ export const Step1 = ({ tourData, setTourData }) => {
                             transition duration-300 ease-in-out 
                             hover:border-blue-300"
                         required
-                    />
+                    >
+                        <option value="Miền Bắc">Miền Bắc</option>
+                        <option value="Miền Trung">Miền Trung</option>
+                        <option value="Miền Nam">Miền Nam</option>
+                    </select>
                 </div>
+
 
                 {/* Max Quantity */}
                 <div className="space-y-2">

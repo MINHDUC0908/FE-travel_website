@@ -51,7 +51,7 @@ const refreshToken = async () => {
     } catch (error) {
         console.error("Lỗi refresh token:", error);
         localStorage.removeItem("accessToken");
-        window.location.href = "/admin/login"; // Chuyển về trang login nếu refresh thất bại
+        // window.location.href = "/admin/login"; // Chuyển về trang login nếu refresh thất bại
         return null;
     } finally {
         isRefreshing = false;

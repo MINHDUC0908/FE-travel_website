@@ -1,3 +1,4 @@
+import Booking from "../../Admin/page/booking/Booking";
 import Dashboard from "../../Admin/page/dashboard";
 import Tour from "../../Admin/page/tour";
 import CreateTour from "../../Admin/page/tour/CreateTour/CreateTour";
@@ -25,5 +26,9 @@ export const adminRoutes = [
     {
         path: "tour/edit/:tour_name",
         Component: EditTour
+    },
+    {
+        path: "booking",
+        Component: Booking
     },
 ];

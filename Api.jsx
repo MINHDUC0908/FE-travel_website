@@ -9,3 +9,7 @@ export const formatDate = (dateString) => {
     return new Date(dateString).toLocaleDateString('vi-VN');
 };
 
+export const formatDateSS = (dateString) => {
+    // Trả về đối tượng Date thay vì chuỗi
+    return new Date(dateString);
+};

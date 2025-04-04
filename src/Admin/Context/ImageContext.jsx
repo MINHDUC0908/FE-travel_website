@@ -2,7 +2,6 @@ import { createContext, useContext, useState } from "react";
 import { toast } from "react-toastify";
 import axios from "axios"; // ✅ Thêm axios
 import { api } from "../../../Api";
-import { useTour } from "./TourContext";
 import axiosClient from "../../api/axiosClient";
 
 const ImageContext = createContext();

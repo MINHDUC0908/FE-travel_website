@@ -11,8 +11,8 @@ const authService = {
         return response.data;
     },
 
-    register: async (name, email, password) => {
-        return await axiosClient.post("/auth/register", { name, email, password });
+    register: async (name, email, password, confirmPassword) => {
+        return await axiosClient.post("/auth/register", { name, email, password, confirmPassword });
     },
 
     logout: async () => {

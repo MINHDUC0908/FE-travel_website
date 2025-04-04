@@ -1,4 +1,4 @@
-import banner from "../../../../assets/banner.png";
+import hagiang from "../../../../assets/hagiang.jpg";
 import travel from "../../../../assets/travel.png";
 import compass from "../../../../assets/compass.png";
 
@@ -132,7 +132,7 @@ function Banner() {
 
                 @media (min-width: 1024px) {
                     .main-heading {
-                        font-size: 5rem;
+                        font-size: 4.5rem;
                     }
                 }
 
@@ -294,7 +294,7 @@ function Banner() {
             `}</style>
 
             <div className="banner-container">
-                <img src={banner} alt="Scenic Travel Destination Banner" className="banner-image" />
+                <img src={hagiang} alt="Scenic Travel Destination Banner" className="banner-image" />
                 <div className="gradient-overlay"></div>
 
                 <div className="banner-content">

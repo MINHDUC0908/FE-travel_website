@@ -1,15 +1,19 @@
-import { HomeIcon, InfoIcon, MapPinIcon, PhoneIcon, SearchIcon, UserIcon, MenuIcon, XIcon, PlaneIcon, SunIcon } from "lucide-react";
-import { useState, useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { HomeIcon, InfoIcon, MapPinIcon, PhoneIcon, SearchIcon, UserIcon, MenuIcon, XIcon, PlaneIcon, SunIcon, LogOutIcon } from "lucide-react";
+import { useState, useEffect, useRef } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import Register from "./Auth/Resgiter";
 import { useAuthCus } from "../Context/AuthContext";
 
 function Menu() {
     const [isOpen, setIsOpen] = useState(false);
     const [isScrolled, setIsScrolled] = useState(false);
+    const [userMenuOpen, setUserMenuOpen] = useState(false);
     const location = useLocation();
-    const [show, setShow] = useState(false)
-    const { user } = useAuthCus()
+    const [show, setShow] = useState(false);
+    const { user, logout } = useAuthCus();
+    const userMenuRef = useRef(null);
+    const navigate = useNavigate();
+
     const menu = [
         {
             id: 1,
@@ -36,6 +40,7 @@ function Menu() {
             icon: <PhoneIcon size={18} />
         }
     ];
+    
     // Xử lý hiệu ứng khi cuộn trang
     useEffect(() => {
         const handleScroll = () => {
@@ -52,9 +57,35 @@ function Menu() {
         };
     }, []);
 
+    // Xử lý đóng user menu khi click bên ngoài
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (userMenuRef.current && !userMenuRef.current.contains(event.target)) {
+                setUserMenuOpen(false);
+            }
+        };
+
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, []);
+
     // Đóng/mở menu mobile
     const toggleMenu = () => {
         setIsOpen(!isOpen);
+    };
+    
+    // Đóng/mở user menu
+    const toggleUserMenu = () => {
+        setUserMenuOpen(!userMenuOpen);
+    };
+    
+    // Xử lý đăng xuất
+    const handleLogout = () => {
+        logout();
+        setUserMenuOpen(false);
+        navigate("/");
     };
     
     // Kiểm tra route active
@@ -76,7 +107,7 @@ function Menu() {
                         <span className={`ml-2 font-bold text-xl tracking-tight ${
                             isScrolled ? 'text-gray-800' : 'text-white'
                         }`}>
-                            Travel Vietnam
+                            Travel VietNam
                         </span>
                     </div>
                     
@@ -113,21 +144,52 @@ function Menu() {
                     
                     {/* User & Search icons */}
                     <div className="hidden md:flex items-center space-x-4">
-                        <div className="flex items-center space-x-2">
-                            <p className="text-sm font-medium">
-                            {user?.name}
-                            </p>
+                        <div className="flex items-center space-x-2 relative" ref={userMenuRef}>
+                            {user && (
+                                <p className={`text-sm font-medium ${isScrolled ? 'text-gray-800' : 'text-white'}`}>
+                                    {user.name}
+                                </p>
+                            )}
                             <button
                                 className={`p-2 rounded-full flex items-center justify-center transition-colors duration-200
                                     ${isScrolled
                                     ? 'bg-blue-100 text-blue-600 hover:bg-blue-200'
                                     : 'bg-white/20 text-white hover:bg-white/30'
                                     } focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50`}
-                                onClick={() => user ? alert("Hello") : setShow(true)}
+                                onClick={() => user ? toggleUserMenu() : setShow(true)}
                                 aria-label="User profile"
                             >
                                 <UserIcon size={18} />
                             </button>
+                            
+                            {/* User Dropdown Menu */}
+                            {user && userMenuOpen && (
+                                <div className="absolute right-0 mt-2 top-full w-48 bg-white rounded-md shadow-lg py-1 z-50">
+                                    <Link 
+                                        to="/profile" 
+                                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                        onClick={() => setUserMenuOpen(false)}
+                                    >
+                                        Thông tin cá nhân
+                                    </Link>
+                                    <Link 
+                                        to="/my-bookings" 
+                                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                        onClick={() => setUserMenuOpen(false)}
+                                    >
+                                        Lịch sử đặt tour
+                                    </Link>
+                                    <button 
+                                        className="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100"
+                                        onClick={handleLogout}
+                                    >
+                                        <div className="flex items-center">
+                                            <LogOutIcon size={16} className="mr-2" />
+                                            Đăng xuất
+                                        </div>
+                                    </button>
+                                </div>
+                            )}
                         </div>
 
                         <button
@@ -196,9 +258,41 @@ function Menu() {
                             </Link>
                         );
                     })}
+
+                    {/* User Profile for Mobile */}
+                    {user && (
+                        <>
+                            <Link
+                                to="/profile"
+                                className={`flex items-center px-4 py-3 rounded-lg text-base font-medium ${
+                                    isScrolled
+                                        ? 'text-gray-700 hover:text-blue-600 hover:bg-blue-50'
+                                        : 'text-white hover:bg-white/10'
+                                } transition-colors`}
+                                onClick={() => setIsOpen(false)}
+                            >
+                                <UserIcon className="mr-3" size={18} />
+                                Thông tin cá nhân
+                            </Link>
+                            <button
+                                className={`w-full flex items-center px-4 py-3 rounded-lg text-base font-medium ${
+                                    isScrolled
+                                        ? 'text-red-600 hover:bg-red-50'
+                                        : 'text-red-300 hover:bg-white/10'
+                                } transition-colors`}
+                                onClick={() => {
+                                    handleLogout();
+                                    setIsOpen(false);
+                                }}
+                            >
+                                <LogOutIcon className="mr-3" size={18} />
+                                Đăng xuất
+                            </button>
+                        </>
+                    )}
                 </div>
             </div>
-            { show && <Register setShow={setShow} />}
+            {show && <Register setShow={setShow} />}
         </nav>
     );
 }

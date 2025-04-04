@@ -3,12 +3,12 @@ import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { useTourCus } from "../../Context/TourContext";
 import { formatDate } from "../../../../Api";
-import LoadingSpinner from "./components/LoadingSpinner";
 import TourHeader from "./components/TourHeader"; // Đã bao gồm Image Slider
 import QuickInfoCards from "./components/QuickInfoCards";
 import PriceBanner from "./components/PriceBanner";
 import TabNavigation from "./components/TabNavigation";
 import TabContent from "./components/TabContent";
+import { FaShoppingBag } from "react-icons/fa";
 
 function ShowTour({ setCurrentTitle }) {
     const { fetchShowTour, loading, setTour, tour } = useTourCus();
@@ -35,12 +35,19 @@ function ShowTour({ setCurrentTitle }) {
         }
     }, [tour, setCurrentTitle]);
 
-    const handleBookTour = () => {
-        // Logic đặt tour ở đây
-        console.log("Đặt tour:", tour.tour_name);
-    };
-
-    if (loading) return <LoadingSpinner />;
+    if (loading)
+    {
+        return (
+            <div className="flex flex-col items-center justify-center min-h-[800px] bg-white rounded-2xl shadow-lg">
+                <div className="relative">
+                    <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-blue-500"></div>
+                    <div className="absolute top-0 left-0 right-0 bottom-0 flex items-center justify-center">
+                        <FaShoppingBag className="text-blue-500 text-lg" />
+                    </div>
+                </div>
+            </div>
+        )
+    }
     if (!tour) {
         return (
         <div className="flex flex-col items-center justify-center min-h-[800px] bg-white rounded-2xl shadow-lg">
@@ -58,16 +65,15 @@ function ShowTour({ setCurrentTitle }) {
                     tour={tour}
                     isFavorite={isFavorite}
                     setIsFavorite={setIsFavorite}
-                    onBookTour={handleBookTour}
                     images={tour.Images}
                     activeImage={activeImage}
                     setActiveImage={setActiveImage}
             />
             <div className="container mx-auto px-4 py-8">
-                    <QuickInfoCards tour={tour} numberOfDays={numberOfDays} formatDate={formatDate} />
-                    <PriceBanner tour={tour} />
-                    <TabNavigation selectedTab={selectedTab} setSelectedTab={setSelectedTab} />
-                    <TabContent tour={tour} selectedTab={selectedTab} />
+                <QuickInfoCards tour={tour} numberOfDays={numberOfDays} formatDate={formatDate} />
+                <PriceBanner tour={tour} />
+                <TabNavigation selectedTab={selectedTab} setSelectedTab={setSelectedTab} />
+                <TabContent tour={tour} selectedTab={selectedTab} />
             </div>
         </div>
     );
