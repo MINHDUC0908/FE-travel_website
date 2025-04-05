@@ -19,7 +19,7 @@ function SortTour({ tours, setTours }) {
                 sortedData.sort((a, b) => (b.likes || 0) - (a.likes || 0));
                 break;
             case "default":
-                sortedData.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
+                sortedData.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
                 break
             default:
                 break;

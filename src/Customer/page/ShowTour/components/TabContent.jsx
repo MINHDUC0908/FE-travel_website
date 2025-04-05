@@ -1,4 +1,9 @@
+import { useState } from "react";
 import { FaRegCalendarAlt, FaStar } from "react-icons/fa";
+import axiosClient from "../../../../api/axiosClient";
+import { api } from "../../../../../Api";
+import { toast } from "react-toastify";
+import Rating from "./Rating";
 
 const TabContent = ({ tour, selectedTab }) => {
     const mockTour = {
@@ -42,9 +47,8 @@ const TabContent = ({ tour, selectedTab }) => {
         },
         ],
     };
-
     const displayTour = { ...mockTour, ...tour };
-
+    
     return (
         <section className="mb-12 font-sans">
             {selectedTab === "overview" && (
@@ -68,8 +72,6 @@ const TabContent = ({ tour, selectedTab }) => {
                     </div>
                 </div>
             )}
-
-        {/* Tab: Itinerary */}
             {selectedTab === "itinerary" && (
                 <div>
                     <h2 className="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-2">
@@ -136,56 +138,7 @@ const TabContent = ({ tour, selectedTab }) => {
             )}
 
             {selectedTab === "reviews" && (
-                <div>
-                    <h2 className="text-2xl font-bold text-gray-800 mb-6">Đánh giá từ khách hàng</h2>
-                    <div className="space-y-6">
-                        {displayTour.reviews.length > 0 ? (
-                        displayTour.reviews.map((review, index) => (
-                            <div
-                            key={index}
-                            className="bg-gray-50 p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow"
-                            >
-                            <div className="flex items-center mb-4">
-                                <img
-                                src={review.avatar || "/api/placeholder/50/50"}
-                                alt={review.name}
-                                className="w-12 h-12 rounded-full mr-4 object-cover border-2 border-gray-200"
-                                />
-                                <div>
-                                <h3 className="font-semibold text-lg text-gray-800">{review.name}</h3>
-                                <div className="flex items-center gap-2">
-                                    <div className="flex">
-                                    {Array(5)
-                                        .fill()
-                                        .map((_, star) => (
-                                        <FaStar
-                                            key={star}
-                                            className={`${
-                                            star < review.rating ? "text-yellow-400" : "text-gray-300"
-                                            } w-4 h-4`}
-                                        />
-                                        ))}
-                                    </div>
-                                    <span className="text-gray-500 text-sm">{review.date}</span>
-                                </div>
-                                </div>
-                            </div>
-                            <p className="text-gray-700 text-base leading-relaxed">{review.comment}</p>
-                            </div>
-                        ))
-                        ) : (
-                        <p className="text-gray-600 text-lg italic">Chưa có đánh giá nào cho tour này.</p>
-                        )}
-                    </div>
-                    <div className="mt-8 text-center">
-                        <button className="inline-flex items-center bg-blue-600 text-white px-6 py-3 rounded-full font-medium hover:bg-blue-700 transition-colors shadow-md">
-                        Xem tất cả đánh giá
-                        <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
-                        </svg>
-                        </button>
-                    </div>
-                </div>
+                <Rating tour={tour} />
             )}
         </section>
     );
