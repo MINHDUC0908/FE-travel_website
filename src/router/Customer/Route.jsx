@@ -1,3 +1,4 @@
+import Chat from "../../Customer/Component/Chat";
 import About from "../../Customer/page/About/About";
 import BookingPage from "../../Customer/page/Booking/BookingPage";
 import Confirmation from "../../Customer/page/Booking/ConfirmationPage";
@@ -49,5 +50,9 @@ export const customerRoutes = [
     {
         path: ":category_name",
         Component: getTourByCategory
+    },
+    {
+        path: "chat",
+        Component: Chat
     }
 ]

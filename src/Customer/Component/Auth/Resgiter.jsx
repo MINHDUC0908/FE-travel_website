@@ -32,11 +32,11 @@ export default function AuthModal({ setShow }) {
                     toast.success("Đăng nhập thành công!");
                     setShow(false);
                 } else {
-                    toast.error(loginResult.message);
+                    toast.error(error.response?.data?.message || "Lỗi khi thêm ảnh.");
                 }
             }
         } catch (error) {
-            toast.error(error?.response?.data?.message || "Có lỗi xảy ra, vui lòng thử lại!");
+            
         }
     };
 

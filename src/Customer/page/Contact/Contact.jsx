@@ -1,4 +1,7 @@
-import React, { useEffect } from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { api } from "../../../../Api";
+import { toast } from "react-toastify";
 
 
 function Contact({ setCurrentTitle }) {
@@ -6,6 +9,33 @@ function Contact({ setCurrentTitle }) {
         setCurrentTitle("Liên hệ")
         window.scroll(0, 0)
     }, [setCurrentTitle]);
+
+    const [contact, setContacts] = useState({
+        name: "",
+        email: "",
+        phone: "",
+        message: ""
+    })
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setContacts(prev => ({
+            ...prev,
+            [name]: value
+        }));
+    };
+    const handleContact = async (e) => {
+        try {
+            e.preventDefault();
+            const res = await axios.post(api + "/contact/contact", contact)
+            if (res.data.success)
+            {
+                toast.success("Gửi mail thành công")
+            }
+        } catch (error) {
+            toast.error(error?.response?.data?.message || "Có lỗi xảy ra khi gửi phản hồi!");
+        }
+    }
     return (
         <div className="bg-gradient-to-b from-blue-50 to-white min-h-screen mt-16">
             <div className="container mx-auto p-4 pt-16 pb-16">
@@ -103,7 +133,7 @@ function Contact({ setCurrentTitle }) {
                                 Gửi Tin Nhắn Cho Chúng Tôi
                             </h2>
 
-                            <form>
+                            <form onSubmit={handleContact}>
                                 {/* Họ và tên & Email */}
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                                     <div>
@@ -117,6 +147,8 @@ function Contact({ setCurrentTitle }) {
                                             type="text"
                                             id="name"
                                             name="name"
+                                            value={contact.name}
+                                            onChange={handleChange}
                                             className="w-full px-4 py-2 border border-gray-300 rounded-lg 
                                                     focus:outline-none focus:ring-2 focus:ring-blue-500"
                                             placeholder="Nhập họ và tên của bạn"
@@ -134,6 +166,8 @@ function Contact({ setCurrentTitle }) {
                                             type="email"
                                             id="email"
                                             name="email"
+                                            value={contact.email}
+                                            onChange={handleChange}
                                             className="w-full px-4 py-2 border border-gray-300 rounded-lg 
                                                     focus:outline-none focus:ring-2 focus:ring-blue-500"
                                             placeholder="Nhập địa chỉ email của bạn"
@@ -154,6 +188,8 @@ function Contact({ setCurrentTitle }) {
                                             type="tel"
                                             id="phone"
                                             name="phone"
+                                            value={contact.phone}
+                                            onChange={handleChange}
                                             className="w-full px-4 py-2 border border-gray-300 rounded-lg 
                                                     focus:outline-none focus:ring-2 focus:ring-blue-500"
                                             placeholder="Nhập số điện thoại của bạn"
@@ -195,6 +231,8 @@ function Contact({ setCurrentTitle }) {
                                         id="message"
                                         name="message"
                                         rows="5"
+                                        value={contact.message}
+                                        onChange={handleChange}
                                         className="w-full px-4 py-2 border border-gray-300 rounded-lg 
                                                 focus:outline-none focus:ring-2 focus:ring-blue-500"
                                         placeholder="Nhập nội dung tin nhắn của bạn"

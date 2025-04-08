@@ -3,27 +3,40 @@ import { api, formatPrice } from "../../../../../../Api";
 import axiosClient from "../../../../../api/axiosClient";
 
 export const Step1 = ({ tourData, setTourData }) => {
+    const [tourCategories, setTourCategories] = useState([]);
+    const [selectedCategory, setSelectedCategory] = useState(tourData.category_id || "");
+
+    // Lấy danh sách danh mục từ API
+    useEffect(() => {
+        const fetchTourCategory = async () => {
+            try {
+                const res = await axiosClient.get(api + '/admin/tourcategories');
+                if (res.data.success) {
+                    setTourCategories(res.data.data);
+                }
+            } catch (error) {
+                console.error("Failed to fetch tour categories:", error);
+            }
+        };
+        fetchTourCategory();
+    }, []);
+
+    // Đồng bộ selectedCategory với tourData.category_id
+    useEffect(() => {
+        if (selectedCategory !== tourData.category_id) {
+            setTourData({ ...tourData, category_id: selectedCategory });
+        }
+    }, [selectedCategory, tourData, setTourData]);
+
     const handleChange = (e) => {
         setTourData({ ...tourData, [e.target.name]: e.target.value });
     };
 
-    const [tourCategories, setTourCategories] = useState([]);
-    const [selectedCategory, setSelectedCategory] = useState("");
-
-    useEffect(() => {
-        const fetchTourCategory = async () => {
-            try {
-                const res = await axiosClient.get(api + '/admin/tourcategories')
-                if (res.data.success) {
-                    setTourCategories(res.data.data)
-                }
-            } catch (error) {
-                console.error("Failed to fetch tour categories:", error)
-            }
-        }
-        fetchTourCategory()
-    }, [])
-
+    const handleCategoryChange = (e) => {
+        const categoryId = e.target.value;
+        setSelectedCategory(categoryId); 
+    };
+    console.log(selectedCategory);
     return (
         <div className="bg-white p-6 rounded-xl shadow-lg">
             <h2 className="text-2xl font-bold text-gray-800 mb-6 border-b pb-3">
@@ -31,7 +44,6 @@ export const Step1 = ({ tourData, setTourData }) => {
             </h2>
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {/* Tour Name */}
                 <div className="space-y-2">
                     <label className="block text-sm font-medium text-gray-700">
                         Tên Tour <span className="text-red-500">*</span>
@@ -50,7 +62,6 @@ export const Step1 = ({ tourData, setTourData }) => {
                     />
                 </div>
 
-                {/* Destination */}
                 <div className="space-y-2">
                     <label className="block text-sm font-medium text-gray-700">
                         Điểm Đến <span className="text-red-500">*</span>
@@ -69,7 +80,6 @@ export const Step1 = ({ tourData, setTourData }) => {
                     />
                 </div>
 
-                {/* Area */}
                 <div className="space-y-2">
                     <label className="block text-sm font-medium text-gray-700">
                         Khu Vực <span className="text-red-500">*</span>
@@ -84,12 +94,12 @@ export const Step1 = ({ tourData, setTourData }) => {
                             hover:border-blue-300"
                         required
                     >
+                        <option value="">Chọn khu vực</option>
                         <option value="Miền Bắc">Miền Bắc</option>
                         <option value="Miền Trung">Miền Trung</option>
                         <option value="Miền Nam">Miền Nam</option>
                     </select>
                 </div>
-
 
                 {/* Max Quantity */}
                 <div className="space-y-2">
@@ -198,6 +208,25 @@ export const Step1 = ({ tourData, setTourData }) => {
                         required
                     />
                 </div>
+
+
+                <div className="space-y-2">
+                    <label className="block text-sm font-medium text-gray-700">
+                        Điểm khởi hành <span className="text-red-500">*</span>
+                    </label>
+                    <input
+                        type="text"
+                        name="depart"
+                        placeholder="VD: Tp Hồ Chí Minh"
+                        value={tourData.depart}
+                        onChange={handleChange}
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg 
+                            focus:outline-none focus:ring-2 focus:ring-blue-500 
+                            transition duration-300 ease-in-out 
+                            hover:border-blue-300"
+                        required
+                    />
+                </div>
             </div>
 
             {/* Description */}
@@ -237,13 +266,13 @@ export const Step1 = ({ tourData, setTourData }) => {
                 </label>
                 <select
                     value={selectedCategory}
-                    onChange={(e) => setSelectedCategory(e.target.value)}
+                    onChange={handleCategoryChange} 
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg 
                         focus:outline-none focus:ring-2 focus:ring-blue-500 
                         text-gray-700
                         transition duration-300 ease-in-out"
                     required
-                >
+                >   <option value="">Chọn danh mục</option>
                     {tourCategories.map((category) => (
                         <option key={category.id} value={category.id}>
                             {category.category_name}
@@ -252,5 +281,5 @@ export const Step1 = ({ tourData, setTourData }) => {
                 </select>
             </div>
         </div>
-    )
-}
+    );
+};

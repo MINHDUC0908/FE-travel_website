@@ -168,7 +168,7 @@ function ShowTour({ setCurrentTitle }) {
                                             Số lượng
                                         </div>
                                         <div className="text-xs font-semibold text-gray-700 mt-1">
-                                            {tour.quantity} chỗ
+                                            Còn {tour.remaining_quantity} chỗ trong tổng số {tour.quantity} chỗ.
                                         </div>
                                     </div>
                                     <div className="bg-gray-50 p-3 rounded-lg flex flex-col justify-between">

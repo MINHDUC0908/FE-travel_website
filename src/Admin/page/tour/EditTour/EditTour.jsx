@@ -85,7 +85,7 @@ function EditTour({ setCurrentTitle }) {
             toast.success("Cập nhật tour thành công");
             navigate("/admin/tour");
         } catch (error) {
-            toast.error("Đã xảy ra lỗi khi cập nhật tour");
+            console.error("Đã xảy ra lỗi khi cập nhật tour");
         } finally {
             setIsSubmitting(false);
         }

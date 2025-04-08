@@ -5,6 +5,7 @@ import { MdOutlineSettings, MdPeopleOutline, MdOutlineMessage, MdAnalytics, MdLo
 import { Link, useLocation } from "react-router-dom";
 import { useUser } from '../Context/AuthContext';
 import { FaCalendarCheck } from 'react-icons/fa';
+import { Contact } from 'lucide-react';
 
 function Sidebar() {
     const [isCollapsed, setIsCollapsed] = useState(false);
@@ -15,8 +16,9 @@ function Sidebar() {
         { id: 2, path: "/admin/tour", icon: <BiPackage size={22} />, name: "Tour" },
         { id: 7, path: "/admin/booking", icon: <FaCalendarCheck size={22} />, name: "Booking" },
         { id: 3, path: "/admin/users", icon: <MdPeopleOutline size={22} />, name: "Users" },
-        { id: 4, path: "/admin/analytics", icon: <MdAnalytics size={22} />, name: "Analytics" },
+        { id: 8, path: "/admin/contact", icon: <Contact size={22} />, name: "Contact" },
         { id: 5, path: "/admin/messages", icon: <MdOutlineMessage size={22} />, name: "Messages" },
+        { id: 4, path: "/admin/analytics", icon: <MdAnalytics size={22} />, name: "Analytics" },
         { id: 6, path: "/admin/settings", icon: <MdOutlineSettings size={22} />, name: "Settings" }
     ];
 

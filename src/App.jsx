@@ -24,7 +24,6 @@ function App() {
                         <CustomerRoutes setCurrentTitle={setCurrentTitle} />
                     }
                 />
-                <Route path="*" element={<NotFound />} />
                 {/* Bọc toàn bộ Admin (bao gồm cả Login) với AuthProvider */}
                 <Route
                     path="/admin/*"

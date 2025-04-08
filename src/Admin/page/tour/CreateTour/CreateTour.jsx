@@ -10,6 +10,7 @@ import { FaShoppingBag } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import axiosClient from "../../../../api/axiosClient";
 import { CKEditor } from "ckeditor4-react";
+import { useTour } from "../../../Context/TourContext";
 
 const Step3 = ({ itinerary, setItinerary }) => {
     const updateDay = (index, value) => {
@@ -40,6 +41,7 @@ const Step3 = ({ itinerary, setItinerary }) => {
 
 function CreateTour() {
     const [step, setStep] = useState(1);
+    const { setTours } = useTour()
     const [loading, setLoading] = useState(false)
     const [tourData, setTourData] = useState({
         tour_name: "",
@@ -51,7 +53,8 @@ function CreateTour() {
         departure_date: "",
         end_date: "",
         description: "",
-        category_id: ""
+        category_id: "",
+        depart: " "
     });
     const [images, setImages] = useState([]);
     const [itinerary, setItinerary] = useState([]);
@@ -80,19 +83,9 @@ function CreateTour() {
             }
         }
     }, [tourData.departure_date, tourData.end_date]);
-    console.log(itinerary)
+
     const isFormValid = () => {
-        if (step === 1) {
-            return Object.entries(tourData).every(([key, value]) => {
-                if (key === "description") return value.trim().length >= 30;
-                return value.trim() !== "";
-            });
-        } else if (step === 2) {
-            return images.length > 0;
-        } else if (step === 3) {
-            return itinerary.length > 0 && itinerary.every(day => day.activities.trim() !== "");
-        }
-        return false;
+        return true;
     };
 
     const handleNextStep = () => {
@@ -126,6 +119,8 @@ function CreateTour() {
             formData.append("child_price", tourData.child_price);
             formData.append("departure_date", tourData.departure_date);
             formData.append("end_date", tourData.end_date);
+            formData.append("category_id", tourData.category_id);
+            formData.append("depart", tourData.depart);
             formData.append("description", tourData.description);
             formData.append("itinerary", JSON.stringify(itinerary));
 
@@ -140,6 +135,8 @@ function CreateTour() {
                     "Content-Type": "multipart/form-data",
                 },
             });
+
+            setTours((prev) => [...prev, res.data.data]);
 
             if (res.data.success) {
                 toast.success("Thêm tour và ảnh thành công");

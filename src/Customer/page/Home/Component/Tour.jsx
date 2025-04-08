@@ -170,92 +170,92 @@ function Tour() {
                     1024: { slidesPerView: 4 },
                     1280: { slidesPerView: 5 },
                 }}
-                className="relative"
+                className="relative my-8"
             >
                 {tours && tours.length > 0 ? (
                     tours.slice(0, 10).map((tour) => {
                         // Xác định trạng thái tour
-                        const time = formatDateSS(new Date())
+                        const time = formatDateSS(new Date());
                         const startDate = formatDateSS(tour.departure_date);
                         const endDate = formatDateSS(tour.end_date);
+                        
                         let statusText = "Chưa diễn ra";
                         let statusColor = "bg-blue-500";
+                        
                         if (time > endDate) {
                             statusText = "Đã kết thúc";
                             statusColor = "bg-gray-500";
                         } else if (time >= startDate && time <= endDate) {
                             statusText = "Đang diễn ra";
                             statusColor = "bg-green-500";
-                        } else if (time < startDate) {
-                            statusText = "Chưa diễn ra";
-                            statusColor = "bg-blue-500"; 
                         }
-                    
+                        
+                        // Lấy ảnh an toàn từ tour
+                        const tourImage = tour.Images && tour.Images.length > 0 && tour.Images[0]?.image_url
+                            ? src + tour.Images[0].image_url
+                            : "https://via.placeholder.com/400x300";
+                            
                         return (
                             <SwiperSlide key={tour.id}>
-                                <Link to={`/show/tour/${tour.tour_name}`} state={{id: tour.id}}>
-                                    <div className="relative bg-white rounded-2xl shadow-lg overflow-hidden transform transition-all duration-500 hover:scale-105 hover:shadow-xl group h-full flex flex-col">
-                                        <div className="relative">
+                                <Link to={`/show/tour/${tour.tour_name}`} state={{ id: tour.id }} className="block h-full">
+                                    <div className="relative bg-white rounded-2xl shadow-md overflow-hidden flex flex-col h-full">
+                                        {/* Tour Image Section */}
+                                        <div className="relative overflow-hidden">
                                             <img
-                                                src={src + (tour.Images && tour.Images[0]?.image_url) || "https://via.placeholder.com/400x300"}
+                                                src={tourImage}
                                                 alt={tour.tour_name}
-                                                className="tour-image w-full h-60 object-cover transition-transform duration-500 group-hover:scale-110 brightness-90 group-hover:brightness-100"
+                                                className="w-full h-52 object-cover"
+                                                onError={(e) => {
+                                                    e.target.src = "https://via.placeholder.com/400x300";
+                                                }}
                                             />
-                                            <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                                            <div className={`absolute top-4 right-4 ${statusColor} text-white px-3 py-1 rounded-full text-xs font-semibold shadow-md`}>
+                                            <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
+                                            
+                                            {/* Status Badge */}
+                                            <div className={`absolute top-3 right-3 ${statusColor} text-white px-3 py-1 rounded-full text-xs font-semibold shadow-sm`}>
                                                 {statusText}
                                             </div>
-                                            <div className="absolute bottom-0 right-0 bg-orange-500 text-white px-3 py-1 rounded-tl-lg font-semibold shadow-md">
+                                            <div className="absolute bottom-0 right-0 bg-orange-500 text-white px-3 py-1 rounded-tl-lg font-semibold shadow-sm">
                                                 {formatPrice(tour.adult_price)}
                                             </div>
                                         </div>
-
-                                        <div className="p-6 bg-white flex-grow">
-                                            <div className="flex items-center mb-2">
-                                                <div className="flex">
-                                                    {[1, 2, 3, 4, 5].map((star, index) => (
-                                                        <svg key={index} className={`w-4 h-4 ${index < 4 ? "text-yellow-400" : "text-gray-300"} fill-current`} viewBox="0 0 24 24">
-                                                            <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
-                                                        </svg>
-                                                    ))}
+                                        <div className="p-4 bg-white flex-grow flex flex-col justify-between">
+                                            <div>
+                                                <div className="flex items-center mb-2">
+                                                    <div className="flex">
+                                                        {[1, 2, 3, 4, 5].map((star, index) => (
+                                                            <svg 
+                                                                key={index} 
+                                                                className={`w-4 h-4 ${index < 4 ? "text-yellow-400" : "text-gray-300"} fill-current`} 
+                                                                viewBox="0 0 24 24"
+                                                            >
+                                                                <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
+                                                            </svg>
+                                                        ))}
+                                                    </div>
+                                                    <span className="text-xs text-gray-500 ml-1">(4.0)</span>
                                                 </div>
-                                                <span className="text-xs text-gray-500 ml-1">(4.0)</span>
+                                                <h3 className="text-lg font-bold text-teal-800 mb-2 line-clamp-2">
+                                                    {tour.tour_name}
+                                                </h3>
+                                                <div className="flex items-center mb-1 space-x-1">
+                                                    <span className="text-gray-600">📍</span>
+                                                    <p className="text-sm text-gray-700 font-medium">{tour.destination}</p>
+                                                </div>
+                                                <p className="text-xs text-gray-500 italic mb-3">{tour.area}</p>
+                                                <div className="flex flex-wrap gap-1.5 mb-3">
+                                                    <span className="inline-block bg-teal-100 text-teal-800 text-xs px-2 py-0.5 rounded-full">3 ngày</span>
+                                                    <span className="inline-block bg-blue-100 text-blue-800 text-xs px-2 py-0.5 rounded-full">Khách sạn 4 sao</span>
+                                                </div>
                                             </div>
-                                            <h3 className="text-xl font-bold text-teal-800 mb-2 truncate tracking-wide group-hover:text-orange-500 transition-colors duration-300">
-                                                {tour.tour_name}
-                                            </h3>
-                                            <p className="text-sm text-gray-700 font-medium mb-1 flex items-center">
-                                                📍 {tour.destination}
-                                            </p>
-                                            <p className="text-xs text-gray-500 italic mb-3">{tour.area}</p>
-                                            <div className="flex flex-wrap gap-2 mb-3">
-                                                <span className="inline-block bg-teal-100 text-teal-800 text-xs px-2 py-1 rounded-full">3 ngày</span>
-                                                <span className="inline-block bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">Khách sạn 4 sao</span>
-                                            </div>
-
-                                            <div className="flex justify-between items-center">
-                                                <p className="text-sm text-gray-600 font-semibold flex items-center">
-                                                    👥 Số lượng: {tour.quantity}
+                                            <div className="flex justify-between items-center pt-2 border-t border-gray-100">
+                                                <p className="text-sm text-gray-600 font-medium flex items-center">
+                                                    <span className="mr-1">👥</span> Số lượng: {tour.quantity || 0}
                                                 </p>
-
                                                 <div className={`text-xs font-medium ${tour.remaining_quantity <= 0 ? "text-red-500" : "text-green-600"} bg-gray-100 px-2 py-1 rounded`}>
-                                                    {tour.remaining_quantity <= 0 ? "Hết chỗ" : `Còn lại: ${tour.remaining_quantity }`}
+                                                    {tour.remaining_quantity <= 0 ? "Hết chỗ" : `Còn lại: ${tour.remaining_quantity}`}
                                                 </div>
                                             </div>
-                                        </div>
-
-                                        <div className="absolute inset-0 bg-gradient-to-t from-teal-700/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end">
-                                            <button 
-                                                className={`w-full ${tour.remaining_quantity <= 0 ? "bg-gray-500 cursor-not-allowed" : "bg-orange-500 hover:bg-orange-600"} text-white py-3 text-sm font-semibold rounded-b-2xl transition-all duration-300 transform translate-y-4 group-hover:translate-y-0 flex justify-center items-center`}
-                                                disabled={tour.remaining_quantity <= 0}
-                                            >
-                                                <span>{tour.remaining_quantity <= 0 ? "Hết chỗ" : "Đặt Ngay!"}</span>
-                                                {!tour.remaining_quantity <= 0 && (
-                                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                                                    </svg>
-                                                )}
-                                            </button>
                                         </div>
                                     </div>
                                 </Link>
@@ -263,9 +263,11 @@ function Tour() {
                         );
                     })
                 ) : (
-                    <p className="text-center text-gray-500 text-lg animate-pulse p-12">
-                        Chưa có tour nào, hãy quay lại sau nhé! 🏖️
-                    </p>
+                    <div className="w-full">
+                        <p className="text-center text-gray-500 text-lg py-12 px-4">
+                            Chưa có tour nào, hãy quay lại sau nhé! 🏖️
+                        </p>
+                    </div>
                 )}
             </Swiper>
             {/* Phần danh mục điểm đến */}

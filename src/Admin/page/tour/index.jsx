@@ -45,6 +45,9 @@ function Tour({ setCurrentTitle }) {
             </div>
         </div>
     );
+    const current = new Date();
+    const currentDate = formatDate(current);
+    console.log(currentDate)
     return (
         <div className="">
             {/* Header */}
@@ -116,14 +119,17 @@ function Tour({ setCurrentTitle }) {
                                     </td>
                                     <td className="px-4 py-4 text-center">
                                         <div className="flex flex-col space-y-1">
-                                            <span className="text-xs text-gray-500">From</span>
-                                            <span className="text-sm text-gray-600 bg-indigo-50 px-2 py-1 rounded-lg mb-1">
-                                                {formatDate(tour.departure_date)}
-                                            </span>
-                                            <span className="text-xs text-gray-500">To</span>
-                                            <span className="text-sm text-gray-600 bg-indigo-50 px-2 py-1 rounded-lg">
-                                                {formatDate(tour.end_date)}
-                                            </span>
+                                            {
+                                                currentDate >= formatDate(tour.departure_date) && currentDate <= formatDate(tour.end_date) ? (
+                                                    <span className="text-sm text-red-600 bg-red-50 px-2 py-1 rounded-lg border border-red-100">
+                                                        Đang khởi hành
+                                                    </span>
+                                                ) : (
+                                                    <span className="text-sm text-green-600 bg-green-50 px-2 py-1 rounded-lg border border-green-100">
+                                                        {formatDate(tour.departure_date)} - {formatDate(tour.end_date)}
+                                                    </span>
+                                                )
+                                            }
                                         </div>
                                     </td>
                                     <td className="px-4 py-4">

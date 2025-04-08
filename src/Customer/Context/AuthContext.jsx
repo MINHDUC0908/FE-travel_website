@@ -46,7 +46,7 @@ export const AuthProviderCus = ({ children }) => {
             return { success: true };
         } catch (error) {
             console.error("Lỗi đăng nhập:", error.message || "Đăng nhập thất bại");
-            toast.error(error.message || "Đăng nhập thất bại");
+            toast.error(error.response?.data?.message || "Lỗi khi thêm ảnh.");
             return { success: false, message: error.message || "Đăng nhập thất bại" };
         }
     };

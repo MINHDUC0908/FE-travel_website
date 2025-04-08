@@ -58,7 +58,7 @@ export const TourProvider = ({ children }) => {
             const response = await axiosClient.put(`${api}/admin/tour/update/${tourId}`, updatedData); 
             setTour(response.data.data);
         } catch (error) {
-            toast.error("Cập nhật tour thất bại!");
+            toast.error(error.response?.data?.message || "Cập nhật tour thất bại.");
             throw error;
         } finally {
             setLoading(false);
@@ -77,7 +77,7 @@ export const TourProvider = ({ children }) => {
         }
     }
     return (
-        <TourContext.Provider value={{ fetchTourShow, loading, tour, setTour, updateTour, destroy, tours, fetchTours }}>
+        <TourContext.Provider value={{ fetchTourShow, loading, tour, setTour, updateTour, destroy, tours, fetchTours, setTours }}>
             {children}
         </TourContext.Provider>
     );
