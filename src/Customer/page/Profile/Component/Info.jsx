@@ -3,8 +3,18 @@ import { useState, useRef, useEffect } from "react";
 import { useAuthCus } from "../../../Context/AuthContext";
 import { api, formatDate, src } from "../../../../../Api";
 import axiosClient from "../../../../api/axiosClient";
+import { toast } from "react-toastify";
 
 function Info({ setCurrentTitle }) {
+    const [showModal, setShowModal] = useState(false);
+
+    const handleAvatar = () => {
+        setShowModal(true);
+    };
+
+    const handleClose = () => {
+        setShowModal(false);
+    };
     const { user, setUser } = useAuthCus();
     const [isEditing, setIsEditing] = useState(false);
     const [avatarPreview, setAvatarPreview] = useState(user?.image_url ? `${src}${user.image_url}` : "/default-avatar.png");
@@ -89,6 +99,7 @@ function Info({ setCurrentTitle }) {
                     <div className="flex flex-col items-center space-y-4">
                         <div className="relative group w-40 h-40 rounded-full overflow-hidden border-4 border-blue-100 shadow-md">
                             <img
+                                onClick={() => handleAvatar()}
                                 src={avatarPreview}
                                 alt="Avatar"
                                 className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
@@ -282,6 +293,19 @@ function Info({ setCurrentTitle }) {
                     <p className="text-gray-700">Vui lòng cập nhật thông tin cá nhân chính xác để nhận được các ưu đãi và dịch vụ tốt nhất từ chúng tôi.</p>
                 </div>
             </div>
+            {showModal && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto">
+                    <div
+                        className="fixed inset-0 bg-gradient-to-b from-black/70 to-gray-900/70 backdrop-blur-md transition-opacity duration-300"
+                        onClick={handleClose} 
+                    ></div>
+                    <img
+                        src={src + user?.image_url}
+                        alt="Avatar full size"
+                        className="z-50 max-w-full max-h-full rounded-lg shadow-lg"
+                    />
+                </div>
+            )}
         </div>
     );
 }
