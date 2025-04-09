@@ -7,6 +7,7 @@ import Contact from "../../Customer/page/Contact/Contact";
 import getTourByCategory from "../../Customer/page/getTourByCategory/getTourByCategoty";
 import Home from "../../Customer/page/Home/Home";
 import isVerified from "../../Customer/page/isVerified/isVerified";
+import Profile from "../../Customer/page/Profile";
 import ShowTour from "../../Customer/page/ShowTour/ShowTour";
 import Tour from "../../Customer/page/Tour/Tour";
 
@@ -54,5 +55,9 @@ export const customerRoutes = [
     {
         path: "chat",
         Component: Chat
+    },
+    {
+        path: "profile",
+        Component: Profile
     }
 ]

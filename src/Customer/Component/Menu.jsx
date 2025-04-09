@@ -3,6 +3,7 @@ import { useState, useEffect, useRef } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import Register from "./Auth/Resgiter";
 import { useAuthCus } from "../Context/AuthContext";
+import { src } from "../../../Api";
 
 function Menu() {
     const [isOpen, setIsOpen] = useState(false);
@@ -151,7 +152,7 @@ function Menu() {
                                 </p>
                             )}
                             <button
-                                className={`p-2 rounded-full flex items-center justify-center transition-colors duration-200
+                                className={`p-1 rounded-full flex items-center justify-center transition-colors duration-200
                                     ${isScrolled
                                     ? 'bg-blue-100 text-blue-600 hover:bg-blue-200'
                                     : 'bg-white/20 text-white hover:bg-white/30'
@@ -159,21 +160,31 @@ function Menu() {
                                 onClick={() => user ? toggleUserMenu() : setShow(true)}
                                 aria-label="User profile"
                             >
-                                <UserIcon size={18} />
+                                {user ? (
+                                    <div className="flex items-center gap-2">
+                                        <img
+                                            src={src + user.image_url}
+                                            alt="Avatar"
+                                            className="w-7 h-7 rounded-full object-cover"
+                                        />
+                                    </div>
+                                ) : (
+                                    <p className="text-sm text-white"><UserIcon size={18} /></p>
+                                )}
                             </button>
                             
                             {/* User Dropdown Menu */}
                             {user && userMenuOpen && (
                                 <div className="absolute right-0 mt-2 top-full w-48 bg-white rounded-md shadow-lg py-1 z-50">
                                     <Link 
-                                        to="/profile" 
+                                        to="/profile/info" 
                                         className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                                         onClick={() => setUserMenuOpen(false)}
                                     >
                                         Thông tin cá nhân
                                     </Link>
                                     <Link 
-                                        to="/my-bookings" 
+                                        to="/profile/bookings" 
                                         className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                                         onClick={() => setUserMenuOpen(false)}
                                     >

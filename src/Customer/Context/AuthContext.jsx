@@ -68,6 +68,7 @@ export const AuthProviderCus = ({ children }) => {
         login,
         logout,
         loading,
+        setUser,
         isAuthenticated: !!user
     }), [user, loading]);
 
