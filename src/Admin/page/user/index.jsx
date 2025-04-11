@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import axiosClient from "../../../api/axiosClient";
 import { toast } from "react-toastify";
 
-function User() {
+function User({ setCurrentTitle }) {
     const [users, setUsers] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
@@ -42,6 +42,10 @@ function User() {
 
     const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
+    useEffect(() => {
+        setCurrentTitle("Quản lý người dùng");
+        window.scrollTo(0, 0);
+    }, [setCurrentTitle]);
     return (
         <div className="container mx-auto">
             <div className="bg-white shadow-lg rounded-lg overflow-hidden">

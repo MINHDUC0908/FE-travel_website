@@ -1,6 +1,15 @@
 import axiosClient from "./axiosClient";
 
 const authService = {
+    // Thêm vào authService.js
+    getUserFromToken: async () => {
+        try {
+            const response = await axiosClient.get("/api/user");
+            return response.data;
+        } catch (error) {
+            throw error;
+        }
+    },
     login: async (email, password) => {
         const response = await axiosClient.post("/auth/login", { email, password });
 

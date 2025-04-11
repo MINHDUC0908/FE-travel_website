@@ -5,7 +5,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/effect-coverflow";
-import { formatDate, formatDateSS, formatPrice, src } from "../../../../../Api";
+import {  formatDateSS, formatPrice, src } from "../../../../../Api";
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { useTourCategoryCus } from "../../../Context/TourCategoryContext";

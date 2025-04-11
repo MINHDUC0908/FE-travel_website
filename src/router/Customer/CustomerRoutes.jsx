@@ -10,6 +10,7 @@ import Profile from "../../Customer/page/Profile";
 import Info from "../../Customer/page/Profile/Component/Info";
 import HistoryBookings from "../../Customer/page/Profile/Component/HistoryBookings";
 import MyReview from "../../Customer/page/Profile/Component/MyReview";
+import Favorite from "../../Customer/page/Profile/Component/Favorite";
 
 
 function CustomerRoutes({ setCurrentTitle }) {
@@ -40,6 +41,7 @@ function CustomerRoutes({ setCurrentTitle }) {
                     <Route path="info" element={<Info setCurrentTitle={setCurrentTitle} />} />
                     <Route path="bookings" element={<HistoryBookings setCurrentTitle={setCurrentTitle} />} />
                     <Route path="reviews" element={<MyReview setCurrentTitle={setCurrentTitle} />} />
+                    <Route path="wishlist" element={<Favorite setCurrentTitle={setCurrentTitle} />} />
                 </Route>
             </Route>
         </Routes>

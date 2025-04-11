@@ -160,7 +160,7 @@ function Menu() {
                                 onClick={() => user ? toggleUserMenu() : setShow(true)}
                                 aria-label="User profile"
                             >
-                                {user ? (
+                                {user?.image_url ? (
                                     <div className="flex items-center gap-2">
                                         <img
                                             src={src + user.image_url}

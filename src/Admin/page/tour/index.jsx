@@ -120,13 +120,17 @@ function Tour({ setCurrentTitle }) {
                                     <td className="px-4 py-4 text-center">
                                         <div className="flex flex-col space-y-1">
                                             {
-                                                currentDate >= formatDate(tour.departure_date) && currentDate <= formatDate(tour.end_date) ? (
+                                                new Date() >= new Date(tour.departure_date) && new Date() <= new Date(tour.end_date) ? (
                                                     <span className="text-sm text-red-600 bg-red-50 px-2 py-1 rounded-lg border border-red-100">
                                                         Đang khởi hành
                                                     </span>
-                                                ) : (
+                                                ) : new Date() < new Date(tour.departure_date) ? (
                                                     <span className="text-sm text-green-600 bg-green-50 px-2 py-1 rounded-lg border border-green-100">
-                                                        {formatDate(tour.departure_date)} - {formatDate(tour.end_date)}
+                                                        Khởi hành vào {formatDate(tour.departure_date)}
+                                                    </span>
+                                                ) : (
+                                                    <span className="text-sm text-gray-600 bg-gray-50 px-2 py-1 rounded-lg border border-gray-100">
+                                                        Đã kết thúc vào {formatDate(tour.end_date)}
                                                     </span>
                                                 )
                                             }

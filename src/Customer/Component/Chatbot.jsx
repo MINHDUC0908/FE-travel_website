@@ -88,7 +88,7 @@ function ChatBot() {
 
             {/* Hộp chat */}
             {isChatOpen && (
-                <div className="fixed z-50 right-10 bottom-64 w-80 bg-white rounded-xl shadow-2xl border border-gray-200 animate-scaleIn">
+                <div className="fixed z-50 right-10 bottom-44 w-80 bg-white rounded-xl shadow-2xl border border-gray-200 animate-scaleIn">
                     {/* Header chat */}
                     <div className="flex justify-between items-center bg-blue-600 text-white p-4 rounded-t-xl">
                         <span className="font-bold">Chat với AI</span>

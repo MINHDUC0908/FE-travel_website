@@ -319,7 +319,7 @@ function Banner() {
                     </div>
 
                     <div className="cta-button-container animate-slideUpDelay">
-                        <a href="#explore" className="cta-button">
+                        <a href="/destinations" className="cta-button">
                             Khám Phá Ngay
                         </a>
                     </div>

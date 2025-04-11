@@ -24,6 +24,7 @@ function HistoryBookings({ setCurrentTitle }) {
     }, []);
     useEffect(() => {
         setCurrentTitle("Lịch Sử Đặt Tour");
+        window.scrollTo(0, 0); // Cuộn lên đầu trang khi component được render
     }, [setCurrentTitle]);
 
     const toggleExpand = (bookingId) => {

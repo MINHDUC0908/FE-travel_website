@@ -1,12 +1,14 @@
 import { useAuthCus } from "../../Context/AuthContext";
-import { Outlet, NavLink } from "react-router-dom";
+import { Outlet, NavLink, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { FaUser, FaHistory, FaHeart, FaPen, FaBars, FaSignOutAlt } from "react-icons/fa";
 import { src } from "../../../../Api";
+import { nav } from "framer-motion/client";
 
 function Profile() {
-    const { user, loading } = useAuthCus();
+    const { user, loading, logout } = useAuthCus();
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+    const navigate = useNavigate();
     if (loading) {
         return (
             <div className="flex items-center justify-center h-screen bg-gray-100">
@@ -14,7 +16,14 @@ function Profile() {
             </div>
         );
     }
-    
+    const handleLogout = async () => {
+        try {
+            await logout();
+            navigate("/");
+        } catch (error) {
+            console.error("Logout failed:", error);
+        }
+    };
     return (
         <div className="min-h-screen bg-blue-50">
             <header className="bg-blue-400 text-white fixed top-0 left-0 right-0 z-20 shadow-lg">
@@ -76,7 +85,7 @@ function Profile() {
                     </nav>
 
                     <div className="absolute bottom-8 left-8 right-8">
-                        <button className="w-full flex items-center justify-center space-x-3 bg-red-500 text-white py-3 rounded-xl hover:bg-red-600 transition-all duration-300 shadow-md hover:shadow-lg">
+                        <button onClick={handleLogout} className="w-full flex items-center justify-center space-x-3 bg-red-500 text-white py-3 rounded-xl hover:bg-red-600 transition-all duration-300 shadow-md hover:shadow-lg">
                             <FaSignOutAlt className="text-lg" />
                             <span>Đăng xuất</span>
                         </button>

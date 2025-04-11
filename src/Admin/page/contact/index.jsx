@@ -5,7 +5,7 @@ import { toast } from "react-toastify"
 import { Trash2, Mail, Phone, Send, User, Reply, Calendar, Check, AlertCircle, Search, MessageCircle } from "lucide-react"
 import ReplyContact from "./components/ReplyContact"
 
-function Contact() {
+function Contact({ setCurrentTitle }) {
     const [contacts, setContacts] = useState([])
     const [loading, setLoading] = useState(true)
     const [replyingTo, setReplyingTo] = useState(null)
@@ -77,6 +77,10 @@ function Contact() {
             }
         });
 
+
+    useEffect(() => {
+        setCurrentTitle("Quản lý liên hệ")
+    }, [setCurrentTitle])
     return (
         <div className="p-0  min-h-screen">
             <div className="max-w-full px-6 py-8 mx-auto">

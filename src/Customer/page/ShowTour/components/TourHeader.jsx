@@ -5,12 +5,12 @@ import {
     FaHeart,
     FaRegHeart,
     FaShareAlt,
-    FaChevronLeft,
-    FaChevronRight,
 } from "react-icons/fa";
 import { motion, AnimatePresence } from "framer-motion";
-import { src } from "../../../../../Api";
+import { api, src } from "../../../../../Api";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
+import axiosClient from "../../../../api/axiosClient";
 
 const StarRating = ({ rating = 4.9, showCount = true }) => {
     return (
@@ -68,13 +68,33 @@ const TourHeader = ({
     const handleThumbnailClick = (index) => {
         setActiveImage(index);
     };
+
     useEffect(() => {
         const interval = setInterval(() => {
             setActiveImage((prev) => (prev === images.length - 1 ? 0 : prev + 1));
         }, 8000);
-
         return () => clearInterval(interval); 
     }, [images.length]);
+
+    const handlesFavorite = async () => {
+        try {
+            const res = await axiosClient.post(api + "/favorite/store", {
+                tour_id: tour.id,
+            });
+            if (res.data.success) {
+                setIsFavorite(true);
+                toast.success("Added to favorites", {
+                    position: "top-center",
+                    autoClose: 2000,
+                    className: "bg-black/80 text-white",
+                });
+            }
+        } catch (error) {
+            console.error("Error adding to favorites:", error);
+            toast.error(error?.response?.data?.message || "An error occurred, please try again!");
+        }
+    };
+
     return (
         <div className="relative text-center h-screen overflow-hidden font-sans">
             <div className="absolute inset-0 flex items-center justify-center">
@@ -111,14 +131,12 @@ const TourHeader = ({
                                 style={{
                                     maxWidth: "55%",
                                     height: "auto",
-                                    imageRendering: "auto", // Hoặc thử 'crisp-edges' nếu ảnh là PNG
-                                    filter: "none", // Xóa hiệu ứng làm mờ không cần thiết
+                                    imageRendering: "auto",
                                 }}
-                                initial={{ y: 30, scale: 1 }} // Giữ nguyên scale = 1 để tránh co kéo
+                                initial={{ y: 30, scale: 1 }}
                                 animate={{ y: 0, scale: 1 }} 
                                 transition={{ duration: 1.2, ease: "easeOut" }}
                             />
-
                             <motion.div
                                 className="absolute bottom-[-15%] sm:bottom-[-10%] w-[90%] sm:w-[85%] md:w-[80%] h-[12%] bg-gradient-to-t from-black/30 to-transparent rounded-b-lg overflow-hidden"
                                 initial={{ opacity: 0 }}
@@ -144,7 +162,7 @@ const TourHeader = ({
                     initial={{ opacity: 0, y: 50 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.8, delay: 0.8 }}
-                    className="absolute bottom-16 sm:bottom-20 left-1/3 -translate-x-1/2 flex space-x-2 sm:space-x-3 z-20 w-full max-w-[90%] sm:max-w-[70%] md:max-w-[60%] overflow-x-auto px-2 sm:px-0"
+                    className="absolute bottom-16 sm:bottom-20 left-1/2 -translate-x-1/2 flex space-x-2 sm:space-x-3 z-20 w-full max-w-[90%] sm:max-w-[70%] md:max-w-[60%] overflow-x-auto px-2 sm:px-0"
                 >
                     {images.map((image, index) => (
                         <motion.div
@@ -190,14 +208,46 @@ const TourHeader = ({
                         <motion.button
                             whileHover={{ scale: 1.1 }}
                             whileTap={{ scale: 0.95 }}
-                            onClick={() => setIsFavorite(!isFavorite)}
-                            className={`p-2 rounded-full ${
+                            onClick={handlesFavorite}
+                            className={`relative p-2 rounded-full transition-all duration-300 ${
                                 isFavorite
-                                    ? "bg-amber-200 text-black"
+                                    ? "bg-amber-200 text-black shadow-md"
                                     : "bg-white/10 text-amber-200 hover:bg-white/20"
-                            } transition-colors`}
+                            }`}
                         >
-                            {isFavorite ? <FaHeart /> : <FaRegHeart />}
+                            <AnimatePresence mode="wait">
+                                {isFavorite ? (
+                                    <motion.div
+                                        key="heart-filled"
+                                        initial={{ scale: 0 }}
+                                        animate={{ scale: 1 }}
+                                        exit={{ scale: 0 }}
+                                        transition={{ duration: 0.2 }}
+                                    >
+                                        <FaHeart className="text-lg" />
+                                    </motion.div>
+                                ) : (
+                                    <motion.div
+                                        key="heart-empty"
+                                        initial={{ scale: 0 }}
+                                        animate={{ scale: 1 }}
+                                        exit={{ scale: 0 }}
+                                        transition={{ duration: 0.2 }}
+                                    >
+                                        <FaRegHeart className="text-lg" />
+                                    </motion.div>
+                                )}
+                            </AnimatePresence>
+                            {isFavorite && (
+                                <motion.span
+                                    initial={{ opacity: 0, x: 10 }}
+                                    animate={{ opacity: 1, x: 0 }}
+                                    exit={{ opacity: 0, x: 10 }}
+                                    className="absolute -top-1 -right-1 w-4 h-4 bg-green-500 rounded-full flex items-center justify-center text-white text-xs"
+                                >
+                                    ✓
+                                </motion.span>
+                            )}
                         </motion.button>
                         <motion.button
                             whileHover={{ scale: 1.1 }}
@@ -205,7 +255,7 @@ const TourHeader = ({
                             onClick={handleShare}
                             className="p-2 rounded-full bg-white/10 text-amber-200 hover:bg-white/20 transition-colors"
                         >
-                            <FaShareAlt />
+                            <FaShareAlt className="text-lg" />
                         </motion.button>
                     </div>
                     <motion.button
