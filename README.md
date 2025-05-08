@@ -1,36 +1,77 @@
-# React + Vite
+# 🚀 React + Vite Project Setup
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## 📦 Các Package đã cài đặt
 
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript and enable type-aware lint rules. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
-
+```bash
 npm install react-router-dom
-
 npm install axios
-
-
 npx tailwindcss init -p
-
-
 npm install react-icons
-
 npm install lucide-react
-
-
 npm install react-toastify
-
-
 npm install date-fns
-
-
 npm install react-to-print
-
-
 npm install ckeditor4-react --legacy-peer-deps
+```
+
+---
+
+## 🌐 **Demo Giao Diện Đạt Được**
+
+### 🏠 **Giao diện Trang chủ**
+
+![Trang Chủ](public/home.png)
+
+---
+
+### 📖 **Giao diện Trang Giới Thiệu**
+
+![Giới Thiệu](public/introduce.png)
+
+---
+
+### 📞 **Giao diện Trang Liên Hệ**
+
+![Liên Hệ](public/contact.png)
+
+---
+
+### 🧭 **Giao diện Trang Tour**
+
+![Tour](public/tour.png)
+
+---
+
+### 🗺️ **Giao diện Chi Tiết Tour Du Lịch**
+
+![Chi Tiết Tour](public/showtour.png)  
+![Hình Ảnh Chi Tiết](public/image.png)
+
+---
+
+### 📋 **Giao diện Đặt Tour**
+
+- **Xác nhận đặt tour**  
+  ![Xác nhận thông tin](public/fillininformation.png)
+
+- **Xác nhận thanh toán**  
+  ![Xác nhận thanh toán](public/booktour.png)
+
+---
+
+### 👤 **Giao diện Quản Lí Thông Tin Cá Nhân**
+
+- **Lịch sử đặt tour**  
+  ![Lịch sử đặt tour](public/historybookingtour.png)
+
+- **Tour yêu thích**  
+  ![Tour yêu thích](public/favourite.png)
+
+- **Quản lí đánh giá**  
+  ![Quản lí đánh giá](public/rating.png)
+
+---
+
+### 🤖 **Giao diện Chat với AI**
+
+![Chat AI](public/chatai.png)
